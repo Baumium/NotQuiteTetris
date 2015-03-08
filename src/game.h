@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include "block.h"
+#include "tetrimino.h"
 
 class Game {
     private:
@@ -14,7 +14,7 @@ class Game {
         bool isExit;
         bool isPlaying;
 
-        Block *block;
+        Tetrimino *terimino;
     public:
         static const int SCREEN_WIDTH;
         static const int SCREEN_HEIGHT;

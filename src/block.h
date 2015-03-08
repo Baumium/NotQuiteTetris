@@ -10,7 +10,7 @@ class Block {
         SDL_Rect *rect;
 
     public:
-        Block(int x, int y);
+        Block(int x = 0, int y = 0);
         int getX() const;
         int getY() const;
         void update();

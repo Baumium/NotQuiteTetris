@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <cstdio>
 #include "game.h"
+#include "shapes.h"
 
 //Screen resolution
 const int Game::SCREEN_WIDTH = 250;
@@ -18,7 +19,7 @@ Game::Game() {
     isExit = false;
     isPlaying = false;
 
-    block = new Block(0, 0);
+    terimino = new Tetrimino(I);
 }
 
 void Game::input() {
@@ -54,7 +55,7 @@ void Game::render() {
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-    block->render(renderer);
+    terimino->render(renderer);
 
 
     SDL_RenderPresent(renderer);
