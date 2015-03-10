@@ -15,6 +15,12 @@ class Block {
         int getY() const;
         void update();
         void render(SDL_Renderer *renderer);
+        void moveLeft();
+        void moveRight();
+        void moveDown();
+        bool canMoveLeft();
+        bool canMoveRight();
+        bool canMoveDown();
 };
 
 #endif

@@ -14,12 +14,11 @@ Game::Game() {
     //Create window and renderer
     window = SDL_CreateWindow("Not Quite Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    keystates = SDL_GetKeyboardState(NULL);
 
     isExit = false;
     isPlaying = false;
 
-    terimino = new Tetrimino(I);
+    tetrimino = new Tetrimino(I);
 }
 
 void Game::input() {
@@ -38,6 +37,11 @@ void Game::input() {
                     case SDLK_SPACE: //If space is pressed, start the game
                         isPlaying = true;
                         break;
+                    case SDLK_LEFT:
+                        tetrimino->moveLeft();
+                        break;
+                    case SDLK_RIGHT:
+                        tetrimino->moveRight();
                 }
                 break;
         }
@@ -46,6 +50,7 @@ void Game::input() {
 
 void Game::update() {
     if(isPlaying) {
+        tetrimino->update();
     }
 }
 
@@ -55,7 +60,7 @@ void Game::render() {
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-    terimino->render(renderer);
+    tetrimino->render(renderer);
 
 
     SDL_RenderPresent(renderer);
@@ -76,6 +81,5 @@ void Game::execute() {
         update();
         render();
     }
-
     cleanUp();
 }

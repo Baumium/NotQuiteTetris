@@ -9,12 +9,11 @@ class Game {
     private:
         SDL_Window *window;
         SDL_Renderer *renderer;
-        const Uint8 *keystates;
 
         bool isExit;
         bool isPlaying;
 
-        Tetrimino *terimino;
+        Tetrimino *tetrimino;
     public:
         static const int SCREEN_WIDTH;
         static const int SCREEN_HEIGHT;
