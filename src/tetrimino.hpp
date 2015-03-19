@@ -12,11 +12,11 @@ class Tetrimino {
         int lastDropped;
         int dropDelay;
     public:
-        Tetrimino(Shape shape);
+        Tetrimino();
         void render(sf::RenderWindow &window);
-        void moveLeft();
-        void moveRight();
-        void update(int time);
+        void moveLeft(std::vector<Block> &stationaryBlocks);
+        void moveRight(std::vector<Block> &stationaryBlocks);
+        void update(int time, std::vector<Block> &StationaryBlocks);
         void rotate();
         void addBlocks(std::vector<Block> &blocks);
         void startDrop();

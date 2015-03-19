@@ -2,7 +2,7 @@
 #define SHAPES_HPP
 
 enum Shape {
-    T,
+    T = 0,
     J,
     Z,
     O,

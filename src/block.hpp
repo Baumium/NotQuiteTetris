@@ -9,9 +9,11 @@ class Block {
         sf::RectangleShape rect;
 
     public:
-        Block(int x, int y);
+        Block(int x, int y, sf::Color);
         int getX() const;
         int getY() const;
+        int getWidth() const;
+        int getHeight() const;
         void update();
         void render(sf::RenderWindow &window);
         void moveLeft();

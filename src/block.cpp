@@ -3,11 +3,11 @@
 
 const int Block::DIMENSION = Game::SCREEN_WIDTH / 10;
 
-Block::Block(int x, int y) {
+Block::Block(int x, int y, sf::Color color) {
     rect.setSize(sf::Vector2f(DIMENSION, DIMENSION));
     rect.setPosition(DIMENSION * 5 - x * DIMENSION, y * DIMENSION);
-    rect.setFillColor(sf::Color::Red);
-    rect.setOutlineThickness(1);
+    rect.setFillColor(color);
+    rect.setOutlineThickness(-1);
     rect.setOutlineColor(sf::Color::Black);
 }
 
@@ -37,4 +37,20 @@ bool Block::canMoveRight() {
 
 bool Block::canMoveDown() {
     return rect.getPosition().y + DIMENSION * 2 <= Game::SCREEN_HEIGHT;
+}
+
+int Block::getX() const {
+    return rect.getPosition().x;
+}
+
+int Block::getY() const {
+    return rect.getPosition().y;
+}
+
+int Block::getWidth() const {
+    return DIMENSION;
+}
+
+int Block::getHeight() const {
+    return DIMENSION;
 }

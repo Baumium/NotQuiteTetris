@@ -9,7 +9,7 @@ const int Game::SCREEN_HEIGHT = 500;
 Game::Game() {
     window.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Not Quite Tetris");
     window.setKeyRepeatEnabled(false);
-    tetrimino = new Tetrimino(O);
+    tetrimino = new Tetrimino();
     isPlaying = false;
     blocks = new std::vector<Block>();
 }
@@ -27,10 +27,10 @@ void Game::update() {
                         window.close();
                         break;
                     case sf::Keyboard::Left:
-                        tetrimino->moveLeft();
+                        tetrimino->moveLeft(*blocks);
                         break;
                     case sf::Keyboard::Right:
-                        tetrimino->moveRight();
+                        tetrimino->moveRight(*blocks);
                         break;
                     case sf::Keyboard::Space:
                         isPlaying = true;
@@ -58,9 +58,9 @@ void Game::update() {
     if(isPlaying) {
         if(tetrimino->hitBottom) {
             tetrimino->addBlocks(*blocks);
-            tetrimino = new Tetrimino(O);
+            tetrimino = new Tetrimino();
         } else {
-            tetrimino->update(clock.getElapsedTime().asMilliseconds());
+            tetrimino->update(clock.getElapsedTime().asMilliseconds(), *blocks);
         }
     }
 }
