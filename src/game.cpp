@@ -1,85 +1,85 @@
-#include <SDL2/SDL.h>
+#include "game.hpp"
+#include "block.hpp"
+#include "tetrimino.hpp"
 #include <cstdio>
-#include "game.h"
-#include "shapes.h"
 
-//Screen resolution
 const int Game::SCREEN_WIDTH = 250;
 const int Game::SCREEN_HEIGHT = 500;
 
 Game::Game() {
-    //Initialize SDL
-    SDL_Init(SDL_INIT_EVERYTHING);
-
-    //Create window and renderer
-    window = SDL_CreateWindow("Not Quite Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
-    isExit = false;
+    window.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Not Quite Tetris");
+    window.setKeyRepeatEnabled(false);
+    tetrimino = new Tetrimino(O);
     isPlaying = false;
-
-    tetrimino = new Tetrimino(I);
+    blocks = new std::vector<Block>();
 }
 
-void Game::input() {
-    SDL_Event event;
-    while(SDL_PollEvent(&event)) {
+void Game::update() {
+    sf::Event event;
+    while(window.pollEvent(event)) {
         switch(event.type) {
-            case SDL_QUIT:
-                isExit = true;
+            case sf::Event::Closed:
+                window.close();
                 break;
-
-            case SDL_KEYDOWN:
-                switch(event.key.keysym.sym) {
-                    case SDLK_ESCAPE: //Escape = mark program for closure
-                        isExit = true;
+            case sf::Event::KeyPressed:
+                switch(event.key.code) {
+                    case sf::Keyboard::Escape:
+                        window.close();
                         break;
-                    case SDLK_SPACE: //If space is pressed, start the game
-                        isPlaying = true;
-                        break;
-                    case SDLK_LEFT:
+                    case sf::Keyboard::Left:
                         tetrimino->moveLeft();
                         break;
-                    case SDLK_RIGHT:
+                    case sf::Keyboard::Right:
                         tetrimino->moveRight();
+                        break;
+                    case sf::Keyboard::Space:
+                        isPlaying = true;
+                        break;
+                    case sf::Keyboard::Down:
+                        tetrimino->startDrop();
+                        break;
+                    default:
+                        break;
                 }
                 break;
+            case sf::Event::KeyReleased:
+                switch(event.key.code) {
+                    case sf::Keyboard::Down:
+                        tetrimino->stopDrop();
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    if(isPlaying) {
+        if(tetrimino->hitBottom) {
+            tetrimino->addBlocks(*blocks);
+            tetrimino = new Tetrimino(O);
+        } else {
+            tetrimino->update(clock.getElapsedTime().asMilliseconds());
         }
     }
 }
 
-void Game::update() {
-    if(isPlaying) {
-        tetrimino->update();
-    }
-}
-
 void Game::render() {
-    //Clear screen
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-    SDL_RenderClear(renderer);
+    window.clear(sf::Color::Black);
+    tetrimino->render(window);
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-    tetrimino->render(renderer);
+    for(std::vector<Block>::iterator iterator = blocks->begin(); iterator != blocks->end(); ++iterator) {
+        iterator->render(window);
+    }
 
-
-    SDL_RenderPresent(renderer);
-}
-
-
-void Game::cleanUp() {
-    SDL_DestroyWindow(window);
-    window = nullptr;
-    SDL_DestroyRenderer(renderer);
-    renderer = nullptr;
-    SDL_Quit();
+    window.display();
 }
 
 void Game::execute() {
-    while(!isExit) {
-        input();
+    while(window.isOpen()) {
         update();
         render();
     }
-    cleanUp();
 }
+

@@ -1,2 +1,2 @@
 # NotQuiteTetris
-Tetris written in C++ with SDL. Makefile compiles with g++.
+Tetris written in C++ with SFML. Makefile compiles with g++.

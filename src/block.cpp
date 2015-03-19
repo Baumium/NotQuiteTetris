@@ -1,37 +1,40 @@
-#include "block.h"
-#include "game.h"
-#include <cstdio>
+#include "block.hpp"
+#include "game.hpp"
 
 const int Block::DIMENSION = Game::SCREEN_WIDTH / 10;
 
 Block::Block(int x, int y) {
-    rect = new SDL_Rect{(DIMENSION * 5) - (x * DIMENSION), y * DIMENSION, DIMENSION, DIMENSION};
+    rect.setSize(sf::Vector2f(DIMENSION, DIMENSION));
+    rect.setPosition(DIMENSION * 5 - x * DIMENSION, y * DIMENSION);
+    rect.setFillColor(sf::Color::Red);
+    rect.setOutlineThickness(1);
+    rect.setOutlineColor(sf::Color::Black);
 }
 
-void Block::render(SDL_Renderer *renderer) {
-    SDL_RenderFillRect(renderer, rect);
+void Block::render(sf::RenderWindow &window) {
+    window.draw(rect);
 }
 
 void Block::moveLeft() {
-    rect->x = rect->x - DIMENSION;
+    rect.move(-DIMENSION, 0);
 }
 
 void Block::moveRight() {
-    rect->x = rect->x + DIMENSION;
+    rect.move(DIMENSION, 0);
 }
 
 void Block::moveDown() {
-    rect->y = rect->y + DIMENSION;
+    rect.move(0, DIMENSION);
 }
 
 bool Block::canMoveLeft() {
-    return rect->x - DIMENSION >= 0;
+    return rect.getPosition().x - DIMENSION >= 0;
 }
 
 bool Block::canMoveRight() {
-    return rect->x + rect->w + DIMENSION <= Game::SCREEN_WIDTH;
+    return rect.getPosition().x + DIMENSION * 2 <= Game::SCREEN_WIDTH;
 }
 
 bool Block::canMoveDown() {
-    return rect->y + rect->h + DIMENSION <= Game::SCREEN_HEIGHT;
+    return rect.getPosition().y + DIMENSION * 2 <= Game::SCREEN_HEIGHT;
 }

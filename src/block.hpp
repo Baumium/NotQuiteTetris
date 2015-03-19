@@ -1,20 +1,19 @@
-#ifndef BLOCK_H
-#define BLOCK_H
+#ifndef BLOCK_HPP
+#define BLOCK_HPP
 
-#include <SDL2/SDL.h>
+#include <SFML/Graphics.hpp>
 
 class Block {
     private:
         static const int DIMENSION;
-
-        SDL_Rect *rect;
+        sf::RectangleShape rect;
 
     public:
-        Block(int x = 0, int y = 0);
+        Block(int x, int y);
         int getX() const;
         int getY() const;
         void update();
-        void render(SDL_Renderer *renderer);
+        void render(sf::RenderWindow &window);
         void moveLeft();
         void moveRight();
         void moveDown();

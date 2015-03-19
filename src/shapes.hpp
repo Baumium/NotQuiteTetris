@@ -1,5 +1,5 @@
-#ifndef SHAPES_H
-#define SHAPES_H
+#ifndef SHAPES_HPP
+#define SHAPES_HPP
 
 enum Shape {
     T,

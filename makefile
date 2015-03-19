@@ -1,7 +1,7 @@
 CC = g++
 OBJS = src/*.cpp
 OBJ_NAME = tetris
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
+LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 COMPILER_FLAGS = -std=c++11
 BIN = bin/
 
