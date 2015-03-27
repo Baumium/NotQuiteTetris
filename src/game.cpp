@@ -71,20 +71,28 @@ void Game::update() {
             if(blocks->at(i).getX() == 0) {
                 int number = 0;
                 Block block = blocks->at(i);
+                //Detect if there are 10 blocks on a line
                 for(unsigned long j = 0; j < blocks->size(); ++j) {
                     if(block.getY() == blocks->at(j).getY()) {
                         number++;
                     }
                 }
+                //Remove all blocks on the line
                 if(number >= 10) {
-                    printf("hello");
                     for(unsigned long j = 0; j < blocks->size(); ++j) {
                         if(block.getY() == blocks->at(j).getY()) {
                             blocks->erase(blocks->begin() + j);
                             j--;
                         }
                     }
+                    //Lower every block above by one line
+                    for(unsigned long j = 0; j < blocks->size(); ++j) {
+                        if(block.getY() > blocks->at(j).getY()) {
+                            blocks->at(j).moveDown();
+                        }
+                    }
                 }
+
             }
         }
     }
