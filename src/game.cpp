@@ -33,10 +33,13 @@ void Game::update() {
                         tetrimino->moveRight(*blocks);
                         break;
                     case sf::Keyboard::Space:
-                        isPlaying = true;
+                        isPlaying = !isPlaying;
                         break;
                     case sf::Keyboard::Down:
                         tetrimino->startDrop();
+                        break;
+                    case sf::Keyboard::Up:
+                        tetrimino->rotate();
                         break;
                     default:
                         break;
@@ -61,6 +64,28 @@ void Game::update() {
             tetrimino = new Tetrimino();
         } else {
             tetrimino->update(clock.getElapsedTime().asMilliseconds(), *blocks);
+        }
+
+        //Check is there is a full line to remove
+        for(unsigned long i = 0; i < blocks->size(); ++i) {
+            if(blocks->at(i).getX() == 0) {
+                int number = 0;
+                Block block = blocks->at(i);
+                for(unsigned long j = 0; j < blocks->size(); ++j) {
+                    if(block.getY() == blocks->at(j).getY()) {
+                        number++;
+                    }
+                }
+                if(number >= 10) {
+                    printf("hello");
+                    for(unsigned long j = 0; j < blocks->size(); ++j) {
+                        if(block.getY() == blocks->at(j).getY()) {
+                            blocks->erase(blocks->begin() + j);
+                            j--;
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ const int Block::DIMENSION = Game::SCREEN_WIDTH / 10;
 
 Block::Block(int x, int y, sf::Color color) {
     rect.setSize(sf::Vector2f(DIMENSION, DIMENSION));
-    rect.setPosition(DIMENSION * 5 - x * DIMENSION, y * DIMENSION);
+    rect.setPosition(DIMENSION * 4 - x * DIMENSION, y * DIMENSION);
     rect.setFillColor(color);
     rect.setOutlineThickness(-1);
     rect.setOutlineColor(sf::Color::Black);

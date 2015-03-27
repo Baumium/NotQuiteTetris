@@ -11,16 +11,18 @@ class Tetrimino {
         int rotations;
         int lastDropped;
         int dropDelay;
+        int currentRotation;
+
     public:
         Tetrimino();
         void render(sf::RenderWindow &window);
         void moveLeft(std::vector<Block> &stationaryBlocks);
         void moveRight(std::vector<Block> &stationaryBlocks);
         void update(int time, std::vector<Block> &StationaryBlocks);
-        void rotate();
         void addBlocks(std::vector<Block> &blocks);
         void startDrop();
         void stopDrop();
+        void rotate();
         bool hitBottom;
 };
 
