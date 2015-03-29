@@ -9,9 +9,15 @@ const int Game::SCREEN_HEIGHT = 500;
 Game::Game() {
     window.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Not Quite Tetris");
     window.setKeyRepeatEnabled(false);
+    font.loadFromFile("assets/font.ttf");
+    scoreText.setFont(font);
+    scoreText.setColor(sf::Color::White);
+    scoreText.setPosition(SCREEN_WIDTH - 50, 0);
+    scoreText.setCharacterSize(15);
     tetrimino = new Tetrimino();
     isPlaying = false;
     blocks = new std::vector<Block>();
+    score = 0;
 }
 
 void Game::update() {
@@ -39,7 +45,7 @@ void Game::update() {
                         tetrimino->startDrop();
                         break;
                     case sf::Keyboard::Up:
-                        tetrimino->rotate();
+                        tetrimino->rotate(*blocks);
                         break;
                     default:
                         break;
@@ -79,6 +85,7 @@ void Game::update() {
                 }
                 //Remove all blocks on the line
                 if(number >= 10) {
+                    score++;
                     for(unsigned long j = 0; j < blocks->size(); ++j) {
                         if(block.getY() == blocks->at(j).getY()) {
                             blocks->erase(blocks->begin() + j);
@@ -96,6 +103,7 @@ void Game::update() {
             }
         }
     }
+    scoreText.setString(std::to_string(score));
 }
 
 void Game::render() {
@@ -105,6 +113,9 @@ void Game::render() {
     for(std::vector<Block>::iterator iterator = blocks->begin(); iterator != blocks->end(); ++iterator) {
         iterator->render(window);
     }
+
+    //Display score
+    window.draw(scoreText);
 
     window.display();
 }

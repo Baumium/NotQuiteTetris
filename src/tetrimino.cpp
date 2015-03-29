@@ -1,5 +1,6 @@
 #include "tetrimino.hpp"
 #include "block.hpp"
+#include "game.hpp"
 
 Tetrimino::Tetrimino() : lastDropped(0), dropDelay(500), currentRotation(0), hitBottom(false) {
     Shape shape = static_cast<Shape>(rand() % (I + 1));
@@ -218,6 +219,24 @@ void Tetrimino::stopDrop() {
     dropDelay = 500;
 }
 
-void Tetrimino::rotate() {
-    currentRotation = currentRotation < rotations - 1 ? currentRotation + 1 : 0;
+void Tetrimino::rotate(std::vector<Block> &blocks) {
+    bool canRotate = true;
+    for(int i = 0; i < 4; i++) {
+        Block *tetBlock = this->blocks[currentRotation < rotations - 1 ? currentRotation + 1: 0][i];
+        if(tetBlock->getX() < 0 || tetBlock->getX() + tetBlock->getWidth() > Game::SCREEN_WIDTH) {
+            canRotate = false;
+            break;
+        }
+        for(std::vector<Block>::iterator block = blocks.begin(); block != blocks.end(); ++block) {
+            if(tetBlock->getX() == block->getX() && tetBlock->getY() == block->getY()) {
+                canRotate = false;
+                break;
+            }
+        }
+    }
+    if(canRotate) {
+        currentRotation = currentRotation < rotations - 1 ? currentRotation + 1 : 0;
+    } else {
+
+    }
 }

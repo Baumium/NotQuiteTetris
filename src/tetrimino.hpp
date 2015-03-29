@@ -22,7 +22,7 @@ class Tetrimino {
         void addBlocks(std::vector<Block> &blocks);
         void startDrop();
         void stopDrop();
-        void rotate();
+        void rotate(std::vector<Block> &blocks);
         bool hitBottom;
 };
 

@@ -11,6 +11,9 @@ class Game {
         sf::Clock clock;
         bool isPlaying;
         std::vector<Block> *blocks;
+        sf::Font font;
+        sf::Text scoreText;
+        int score;
     public:
         static const int SCREEN_WIDTH;
         static const int SCREEN_HEIGHT;
